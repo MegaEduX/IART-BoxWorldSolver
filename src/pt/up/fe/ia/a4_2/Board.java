@@ -27,7 +27,7 @@ public class Board {
     }
 
     public boolean movePlayer(Direction d) {
-        if (false /* move */) {
+        if (false /* TODO: Move */) {
             heuristicG++;
 
             return true;
