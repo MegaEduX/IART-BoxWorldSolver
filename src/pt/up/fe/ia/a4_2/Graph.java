@@ -1,7 +1,7 @@
 package pt.up.fe.ia.a4_2;
 
 public class Graph {
-    Node root;
+    private Node root;
 
     public Graph(Node rootNode) {
         root = rootNode;

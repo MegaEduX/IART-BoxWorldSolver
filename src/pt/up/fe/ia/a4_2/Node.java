@@ -2,12 +2,12 @@ package pt.up.fe.ia.a4_2;
 
 import java.util.List;
 
-public class Node<Type> {
+public class Node<T> {
     private List<Node> childNodes;
 
-    private Type value;
+    private T value;
 
-    public Node(Type val) {
+    public Node(T val) {
         value = val;
     }
 
@@ -23,11 +23,11 @@ public class Node<Type> {
         return childNodes;
     }
 
-    public Type getValue() {
+    public T getValue() {
         return value;
     }
 
-    public void setValue(Type val) {
+    public void setValue(T val) {
         value = val;
     }
 }
