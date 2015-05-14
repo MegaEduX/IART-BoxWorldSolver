@@ -39,6 +39,8 @@ public class Board {
 
     private int heuristicG = -1;
 
+    private boolean isSolution = false;
+
     private PieceType[][] boardRepresentation = null;
 
     private Coordinate currentPlayerPosition = null;
@@ -47,6 +49,22 @@ public class Board {
         boardRepresentation = boardRep;
 
         currentPlayerPosition = getPieceCoordinate(PieceType.Player);
+    }
+
+    public Board copy() {
+        try {
+
+            Board ret = new Board(boardRepresentation);
+
+            ret.setHeuristicG(heuristicG);
+
+            return ret;
+
+        } catch (PieceNotFoundException e) {
+            //  This can never happen, honestly.
+
+            return null;
+        }
     }
 
     public boolean movePlayer(Direction d) {
@@ -62,6 +80,9 @@ public class Board {
 
                     heuristicG++;
 
+                    if (pc == PieceType.Exit)
+                        isSolution = true;
+
                     return true;
                 } else if (pc == PieceType.Box || pc == PieceType.IceBox) {
                     Coordinate upTwoCoordinate = new Coordinate(upCoordinate.x, upCoordinate.y - 1);
@@ -74,10 +95,6 @@ public class Board {
                     if (pc == PieceType.Box) {
                         swap(upCoordinate, upTwoCoordinate);
                         swap(currentPlayerPosition, upCoordinate);
-
-                        heuristicG++;
-
-                        return true;
                     } else {
                         //  Move it all the way up.
                         //  Move the player one piece.
@@ -90,8 +107,7 @@ public class Board {
                             if (cpc != PieceType.Wall) {
                                 if (cpc == PieceType.Hole)
                                     yToMoveUp = i;
-                                else if (cpc == PieceType.Box || cpc == PieceType.IceBox ||
-                                        cpc == PieceType.Wall || cpc == PieceType.Hole)
+                                else if (cpc == PieceType.Box || cpc == PieceType.IceBox)
                                     yToMoveUp = i - 1;
 
                                 break;
@@ -100,11 +116,11 @@ public class Board {
 
                         swap(upCoordinate, new Coordinate(upCoordinate.x, upCoordinate.y - yToMoveUp));
                         swap(currentPlayerPosition, upCoordinate);
-
-                        heuristicG++;
-
-                        return true;
                     }
+
+                    heuristicG++;
+
+                    return true;
                 }
 
                 break;
@@ -125,6 +141,14 @@ public class Board {
         return heuristicG;
     }
 
+    private void setHeuristicG(int g) {
+        heuristicG = g;
+    }
+
+    public boolean getIsSolution() {
+        return isSolution;
+    }
+
     public double getHeuristicH() {
         //  TODO: Calculate
 
@@ -135,7 +159,7 @@ public class Board {
 
             return Coordinate.distance(playerCoordinate, exitCoordinate);
         } catch (PieceNotFoundException e) {
-
+            //  Can this even happen?
         }
 
         return -1;

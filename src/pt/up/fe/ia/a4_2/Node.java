@@ -1,9 +1,9 @@
 package pt.up.fe.ia.a4_2;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Node<T> {
-    private List<Node> childNodes;
+    private ArrayList<Node> childNodes;
 
     private T value;
 
@@ -19,8 +19,12 @@ public class Node<T> {
         childNodes.remove(child);
     }
 
-    public List<Node> getNodes() {
+    public ArrayList<Node> getNodes() {
         return childNodes;
+    }
+
+    public boolean hasNodes() {
+        return (childNodes.size() != 0);
     }
 
     public T getValue() {
