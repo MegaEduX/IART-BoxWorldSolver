@@ -82,6 +82,25 @@ public class Board {
                         //  Move it all the way up.
                         //  Move the player one piece.
 
+                        int yToMoveUp = 0;
+
+                        for (int i = 1; ; i++) {
+                            PieceType cpc = getPieceAtCoordinate(new Coordinate(upCoordinate.x, upCoordinate.y - i));
+
+                            if (cpc != PieceType.Wall) {
+                                if (cpc == PieceType.Hole)
+                                    yToMoveUp = i;
+                                else if (cpc == PieceType.Box || cpc == PieceType.IceBox ||
+                                        cpc == PieceType.Wall || cpc == PieceType.Hole)
+                                    yToMoveUp = i - 1;
+
+                                break;
+                            }
+                        }
+
+                        swap(upCoordinate, new Coordinate(upCoordinate.x, upCoordinate.y - yToMoveUp));
+                        swap(currentPlayerPosition, upCoordinate);
+
                         heuristicG++;
 
                         return true;
@@ -96,8 +115,6 @@ public class Board {
             case Left:
                 break;
             case Right:
-                break;
-            default:
                 break;
         }
 
