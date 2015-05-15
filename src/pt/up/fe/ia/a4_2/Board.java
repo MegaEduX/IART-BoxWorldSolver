@@ -70,6 +70,8 @@ public class Board {
     public boolean movePlayer(Direction d) {
         switch (d) {
             case Up: {
+                if (currentPlayerPosition.y == 0)
+                    return false;
 
                 Coordinate upCoordinate = new Coordinate(currentPlayerPosition.x, currentPlayerPosition.y - 1);
 
@@ -126,12 +128,182 @@ public class Board {
                 break;
             }
 
-            case Down:
+            case Down: {
+                if (currentPlayerPosition.y == boardRepresentation.length - 1)
+                    return false;
+
+                Coordinate downCoordinate = new Coordinate(currentPlayerPosition.x, currentPlayerPosition.y + 1);
+
+                PieceType pc = getPieceAtCoordinate(downCoordinate);
+
+                if (pc == PieceType.Floor || pc == PieceType.Exit) {
+                    swap(currentPlayerPosition, downCoordinate);
+
+                    heuristicG++;
+
+                    if (pc == PieceType.Exit)
+                        isSolution = true;
+
+                    return true;
+                } else if (pc == PieceType.Box || pc == PieceType.IceBox) {
+                    Coordinate downTwoCoordinate = new Coordinate(downCoordinate.x, downCoordinate.y - 1);
+
+                    PieceType pcDownTwo = getPieceAtCoordinate(downTwoCoordinate);
+
+                    if (pcDownTwo != PieceType.Hole && pcDownTwo != PieceType.Floor)
+                        return false;
+
+                    if (pc == PieceType.Box) {
+                        swap(downCoordinate, downTwoCoordinate);
+                        swap(currentPlayerPosition, downCoordinate);
+                    } else {
+                        //  Move it all the way down.
+                        //  Move the player one piece.
+
+                        int yToMoveDown = 0;
+
+                        for (int i = 1; ; i++) {
+                            PieceType cpc = getPieceAtCoordinate(new Coordinate(downCoordinate.x, downCoordinate.y + i));
+
+                            if (cpc != PieceType.Wall) {
+                                if (cpc == PieceType.Hole)
+                                    yToMoveDown = i;
+                                else if (cpc == PieceType.Box || cpc == PieceType.IceBox)
+                                    yToMoveDown = i - 1;
+
+                                break;
+                            }
+                        }
+
+                        swap(downCoordinate, new Coordinate(downCoordinate.x, downCoordinate.y + yToMoveDown));
+                        swap(currentPlayerPosition, downCoordinate);
+                    }
+
+                    heuristicG++;
+
+                    return true;
+                }
+
                 break;
-            case Left:
+            }
+
+            case Left: {
+                if (currentPlayerPosition.x == 0)
+                    return false;
+
+                Coordinate leftCoordinate = new Coordinate(currentPlayerPosition.x - 1, currentPlayerPosition.y);
+
+                PieceType pc = getPieceAtCoordinate(leftCoordinate);
+
+                if (pc == PieceType.Floor || pc == PieceType.Exit) {
+                    swap(currentPlayerPosition, leftCoordinate);
+
+                    heuristicG++;
+
+                    if (pc == PieceType.Exit)
+                        isSolution = true;
+
+                    return true;
+                } else if (pc == PieceType.Box || pc == PieceType.IceBox) {
+                    Coordinate leftTwoCoordinate = new Coordinate(leftCoordinate.x - 1, leftCoordinate.y);
+
+                    PieceType pcLeftTwo = getPieceAtCoordinate(leftTwoCoordinate);
+
+                    if (pcLeftTwo != PieceType.Hole && pcLeftTwo != PieceType.Floor)
+                        return false;
+
+                    if (pc == PieceType.Box) {
+                        swap(leftCoordinate, leftTwoCoordinate);
+                        swap(currentPlayerPosition, leftCoordinate);
+                    } else {
+                        //  Move it all the way left.
+                        //  Move the player one piece.
+
+                        int xToMoveLeft = 0;
+
+                        for (int i = 1; ; i++) {
+                            PieceType cpc = getPieceAtCoordinate(new Coordinate(leftCoordinate.x - i, leftCoordinate.y));
+
+                            if (cpc != PieceType.Wall) {
+                                if (cpc == PieceType.Hole)
+                                    xToMoveLeft = i;
+                                else if (cpc == PieceType.Box || cpc == PieceType.IceBox)
+                                    xToMoveLeft = i - 1;
+
+                                break;
+                            }
+                        }
+
+                        swap(leftCoordinate, new Coordinate(leftCoordinate.x - xToMoveLeft, leftCoordinate.y));
+                        swap(currentPlayerPosition, leftCoordinate);
+                    }
+
+                    heuristicG++;
+
+                    return true;
+                }
+
                 break;
-            case Right:
+            }
+
+            case Right: {
+                if (currentPlayerPosition.x == boardRepresentation.length - 1)
+                    return false;
+
+                Coordinate rightCoordinate = new Coordinate(currentPlayerPosition.x + 1, currentPlayerPosition.y);
+
+                PieceType pc = getPieceAtCoordinate(rightCoordinate);
+
+                if (pc == PieceType.Floor || pc == PieceType.Exit) {
+                    swap(currentPlayerPosition, rightCoordinate);
+
+                    heuristicG++;
+
+                    if (pc == PieceType.Exit)
+                        isSolution = true;
+
+                    return true;
+                } else if (pc == PieceType.Box || pc == PieceType.IceBox) {
+                    Coordinate rightTwoCoordinate = new Coordinate(rightCoordinate.x + 1, rightCoordinate.y);
+
+                    PieceType pcRightTwo = getPieceAtCoordinate(rightTwoCoordinate);
+
+                    if (pcRightTwo != PieceType.Hole && pcRightTwo != PieceType.Floor)
+                        return false;
+
+                    if (pc == PieceType.Box) {
+                        swap(rightCoordinate, rightTwoCoordinate);
+                        swap(currentPlayerPosition, rightCoordinate);
+                    } else {
+                        //  Move it all the way right.
+                        //  Move the player one piece.
+
+                        int xToMoveRight = 0;
+
+                        for (int i = 1; ; i++) {
+                            PieceType cpc = getPieceAtCoordinate(new Coordinate(rightCoordinate.x + i, rightCoordinate.y));
+
+                            if (cpc != PieceType.Wall) {
+                                if (cpc == PieceType.Hole)
+                                    xToMoveRight = i;
+                                else if (cpc == PieceType.Box || cpc == PieceType.IceBox)
+                                    xToMoveRight = i - 1;
+
+                                break;
+                            }
+                        }
+
+                        swap(rightCoordinate, new Coordinate(rightCoordinate.x + xToMoveRight, rightCoordinate.y));
+                        swap(currentPlayerPosition, rightCoordinate);
+                    }
+
+                    heuristicG++;
+
+                    return true;
+                }
+
                 break;
+            }
         }
 
         return false;
@@ -150,7 +322,7 @@ public class Board {
     }
 
     public double getHeuristicH() {
-        //  TODO: Calculate
+        //  Maybe also add the number of holes? Boxes?
 
         try {
             Coordinate playerCoordinate = getPieceCoordinate(PieceType.Player);

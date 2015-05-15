@@ -5,9 +5,9 @@ package pt.up.fe.ia.a4_2;
 Example Board
 
 XXXXXXXXXXXX
-XXX____X___E
+XXX_______HE
 XX________XX
-XP________XX
+XP___B____XX
 X_____H__H_X
 X____I___B_X
 XX_________X
