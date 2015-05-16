@@ -116,8 +116,15 @@ public class Board {
                         return false;
 
                     if (pc == PieceType.Box) {
-                        swap(upCoordinate, upTwoCoordinate);
-                        swap(currentPlayerPosition, upCoordinate);
+                        if (pcUpTwo == PieceType.Floor) {
+                            swap(upCoordinate, upTwoCoordinate);
+                            swap(currentPlayerPosition, upCoordinate);
+                        } else {
+                            setPieceAtCoordinate(PieceType.Floor, upCoordinate);
+                            setPieceAtCoordinate(PieceType.Floor, upTwoCoordinate);
+
+                            swap(currentPlayerPosition, upCoordinate);
+                        }
                     } else {
                         //  Move it all the way up.
                         //  Move the player one piece.
@@ -179,8 +186,15 @@ public class Board {
                         return false;
 
                     if (pc == PieceType.Box) {
-                        swap(downCoordinate, downTwoCoordinate);
-                        swap(currentPlayerPosition, downCoordinate);
+                        if (pcDownTwo == PieceType.Floor) {
+                            swap(downCoordinate, downTwoCoordinate);
+                            swap(currentPlayerPosition, downCoordinate);
+                        } else {
+                            setPieceAtCoordinate(PieceType.Floor, downCoordinate);
+                            setPieceAtCoordinate(PieceType.Floor, downTwoCoordinate);
+
+                            swap(currentPlayerPosition, downCoordinate);
+                        }
                     } else {
                         //  Move it all the way down.
                         //  Move the player one piece.
@@ -242,8 +256,15 @@ public class Board {
                         return false;
 
                     if (pc == PieceType.Box) {
-                        swap(leftCoordinate, leftTwoCoordinate);
-                        swap(currentPlayerPosition, leftCoordinate);
+                        if (pcLeftTwo == PieceType.Floor) {
+                            swap(leftCoordinate, leftTwoCoordinate);
+                            swap(currentPlayerPosition, leftCoordinate);
+                        } else {
+                            setPieceAtCoordinate(PieceType.Floor, leftCoordinate);
+                            setPieceAtCoordinate(PieceType.Floor, leftTwoCoordinate);
+
+                            swap(currentPlayerPosition, leftCoordinate);
+                        }
                     } else {
                         //  Move it all the way left.
                         //  Move the player one piece.
@@ -305,8 +326,15 @@ public class Board {
                         return false;
 
                     if (pc == PieceType.Box) {
-                        swap(rightCoordinate, rightTwoCoordinate);
-                        swap(currentPlayerPosition, rightCoordinate);
+                        if (pcRightTwo == PieceType.Floor) {
+                            swap(rightCoordinate, rightTwoCoordinate);
+                            swap(currentPlayerPosition, rightCoordinate);
+                        } else {
+                            setPieceAtCoordinate(PieceType.Floor, rightCoordinate);
+                            setPieceAtCoordinate(PieceType.Floor, rightTwoCoordinate);
+
+                            swap(currentPlayerPosition, rightCoordinate);
+                        }
                     } else {
                         //  Move it all the way right.
                         //  Move the player one piece.
@@ -389,6 +417,10 @@ public class Board {
 
     private PieceType getPieceAtCoordinate(Coordinate c) {
         return boardRepresentation[c.y][c.x];
+    }
+
+    private void setPieceAtCoordinate(PieceType pc, Coordinate c) {
+        boardRepresentation[c.y][c.x] = pc;
     }
 
     private Coordinate getPieceCoordinate(PieceType pc) throws PieceNotFoundException {
