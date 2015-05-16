@@ -2,7 +2,16 @@ package pt.up.fe.ia.a4_2;
 
 /*
 
-Example Board
+!!! Working Board !!!
+
+XXXXXX
+XP___E
+XXXXXX
+XXXXXX
+XXXXXX
+XXXXXX
+
+Target Board
 
 XXXXXXXXXXXX
 XXX_______HE
@@ -18,14 +27,20 @@ XXXXXXXXXXXX
 public class Main {
 
     public static void main(String[] args) {
-        /*  Reader rd = new Reader("/Users/MegaEduX/example.bwlevel");
+        Reader rd = new Reader("/Users/MegaEduX/example.bwlevel");
 
         try {
             Board.PieceType[][] pt = rd.read();
 
+            Board b = new Board(pt);
+
+            Solver s = new Solver(b);
+
+            Node result = s.solve();
+
             System.out.println("Done!");
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println(e);
-        }   */
+        }
     }
 }

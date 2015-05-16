@@ -7,8 +7,12 @@ public class Node<T> {
 
     private T value;
 
+    private boolean used = false;
+
     public Node(T val) {
         value = val;
+
+        childNodes = new ArrayList<Node>();
     }
 
     public void addChild(Node child) {
@@ -33,5 +37,13 @@ public class Node<T> {
 
     public void setValue(T val) {
         value = val;
+    }
+
+    public boolean getUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean u) {
+        used = u;
     }
 }

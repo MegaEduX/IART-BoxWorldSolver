@@ -1,5 +1,7 @@
 package pt.up.fe.ia.a4_2;
 
+import java.util.Arrays;
+
 public class Board {
 
     private class PieceNotFoundException extends Exception {
@@ -37,7 +39,7 @@ public class Board {
         Right
     }
 
-    private int heuristicG = -1;
+    private int heuristicG = 0;
 
     private boolean isSolution = false;
 
@@ -51,10 +53,27 @@ public class Board {
         currentPlayerPosition = getPieceCoordinate(PieceType.Player);
     }
 
+    private void updatePlayerPosition() {
+        try {
+            currentPlayerPosition = getPieceCoordinate(PieceType.Player);
+        } catch (PieceNotFoundException e) {
+            //  At this point, this can not happen.
+        }
+    }
+
     public Board copy() {
         try {
+            PieceType[][] brCpy = new PieceType[boardRepresentation.length][];
 
-            Board ret = new Board(boardRepresentation);
+            int i = 0;
+
+            for (PieceType[] inner : boardRepresentation) {
+                PieceType[] innerCopy = Arrays.copyOf(inner, inner.length);
+
+                brCpy[i++] = innerCopy;
+            }
+
+            Board ret = new Board(brCpy);
 
             ret.setHeuristicG(heuristicG);
 
@@ -84,6 +103,8 @@ public class Board {
 
                     if (pc == PieceType.Exit)
                         isSolution = true;
+
+                    updatePlayerPosition();
 
                     return true;
                 } else if (pc == PieceType.Box || pc == PieceType.IceBox) {
@@ -122,6 +143,8 @@ public class Board {
 
                     heuristicG++;
 
+                    updatePlayerPosition();
+
                     return true;
                 }
 
@@ -143,6 +166,8 @@ public class Board {
 
                     if (pc == PieceType.Exit)
                         isSolution = true;
+
+                    updatePlayerPosition();
 
                     return true;
                 } else if (pc == PieceType.Box || pc == PieceType.IceBox) {
@@ -181,6 +206,8 @@ public class Board {
 
                     heuristicG++;
 
+                    updatePlayerPosition();
+
                     return true;
                 }
 
@@ -202,6 +229,8 @@ public class Board {
 
                     if (pc == PieceType.Exit)
                         isSolution = true;
+
+                    updatePlayerPosition();
 
                     return true;
                 } else if (pc == PieceType.Box || pc == PieceType.IceBox) {
@@ -240,6 +269,8 @@ public class Board {
 
                     heuristicG++;
 
+                    updatePlayerPosition();
+
                     return true;
                 }
 
@@ -261,6 +292,8 @@ public class Board {
 
                     if (pc == PieceType.Exit)
                         isSolution = true;
+
+                    updatePlayerPosition();
 
                     return true;
                 } else if (pc == PieceType.Box || pc == PieceType.IceBox) {
@@ -299,6 +332,8 @@ public class Board {
 
                     heuristicG++;
 
+                    updatePlayerPosition();
+
                     return true;
                 }
 
@@ -329,7 +364,11 @@ public class Board {
 
             Coordinate exitCoordinate = getPieceCoordinate(PieceType.Exit);
 
-            return Coordinate.distance(playerCoordinate, exitCoordinate);
+            double distance = Coordinate.distance(playerCoordinate, exitCoordinate);
+
+            System.out.println("Distance to exit: " + distance);
+
+            return distance;
         } catch (PieceNotFoundException e) {
             //  Can this even happen?
         }
@@ -345,7 +384,7 @@ public class Board {
         PieceType holder = boardRepresentation[c1.y][c1.x];
 
         boardRepresentation[c1.y][c1.x] = boardRepresentation[c2.y][c2.x];
-        boardRepresentation[c2.x][c2.y] = holder;
+        boardRepresentation[c2.y][c2.x] = holder;
     }
 
     private PieceType getPieceAtCoordinate(Coordinate c) {

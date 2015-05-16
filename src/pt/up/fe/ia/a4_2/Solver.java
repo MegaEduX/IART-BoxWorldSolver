@@ -28,10 +28,14 @@ public class Solver {
             double bestHeuristic = Double.POSITIVE_INFINITY;
 
             for (Node<Board> n : g.getLeaves())
-                if (n.getValue().getHeuristicF() < bestHeuristic) {
+                if (n.getValue().getHeuristicF() < bestHeuristic && !n.getUsed()) {
                     bestNode = n;
                     bestHeuristic = n.getValue().getHeuristicF();
                 }
+
+            System.out.println("Number of graph leaves: " + g.getLeaves().size());
+
+            bestNode.setUsed(true);
 
             try {
                 parseNode(bestNode);

@@ -11,7 +11,6 @@ public class Coordinate {
     public static double distance(Coordinate c1, Coordinate c2) {
         return Math.sqrt(
                 Math.pow(
-                        Math.abs(c1.x - c2.x),
-                        Math.abs(c1.y - c2.y)));
+                        Math.abs(c1.x - c2.x) + Math.abs(c1.y - c2.y), 2));
     }
 }
