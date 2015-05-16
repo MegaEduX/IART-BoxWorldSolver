@@ -1,6 +1,7 @@
 package pt.up.fe.ia.a4_2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Graph {
     private Node root;
@@ -11,6 +12,25 @@ public class Graph {
 
     public Node getRootNode() {
         return root;
+    }
+
+    public ArrayList<Node> getPathToNode(Node n) {
+        ArrayList<Node> ret = gpnAux(n, new ArrayList<Node>());
+
+        Collections.reverse(ret);
+
+        return ret;
+    }
+
+    //  Aquele recursivo maroto...
+
+    public ArrayList<Node> gpnAux(Node n, ArrayList<Node> aux) {
+        aux.add(n);
+
+        if (n.getParent() != null)
+            return gpnAux(n.getParent(), aux);
+
+        return aux;
     }
 
     public ArrayList<Node> getLeaves() {

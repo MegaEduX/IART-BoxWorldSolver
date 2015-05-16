@@ -6,13 +6,19 @@ public class Node<T> {
     private ArrayList<Node> childNodes;
 
     private T value;
+    private Node<T> parent;
 
     private boolean used = false;
 
-    public Node(T val) {
+    public Node(Node<T> parentNode, T val) {
         value = val;
+        parent = parentNode;
 
         childNodes = new ArrayList<Node>();
+    }
+
+    public Node<T> getParent() {
+        return parent;
     }
 
     public void addChild(Node child) {

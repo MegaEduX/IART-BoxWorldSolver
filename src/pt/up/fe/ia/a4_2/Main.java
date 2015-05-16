@@ -24,10 +24,12 @@ XXXXXXXXXXXX
 
  */
 
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {
-        Reader rd = new Reader("/Users/MegaEduX/example.bwlevel");
+        Reader rd = new Reader("/Users/MegaEduX/easy.bwlevel");
 
         try {
             Board.PieceType[][] pt = rd.read();
@@ -38,7 +40,9 @@ public class Main {
 
             Node result = s.solve();
 
-            System.out.println("Done!");
+            ArrayList<Node> fp = s.getGraph().getPathToNode(result);
+
+            System.out.println("Found Exit!");
         } catch (Exception e) {
             System.out.println(e);
         }

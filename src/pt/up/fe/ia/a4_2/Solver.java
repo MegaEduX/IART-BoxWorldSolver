@@ -19,7 +19,11 @@ public class Solver {
     private Graph g;
 
     public Solver(Board b) {
-        g = new Graph(new Node<Board>(b));
+        g = new Graph(new Node<Board>(null, b));
+    }
+
+    public Graph getGraph() {
+        return g;
     }
 
     public Node solve() {
@@ -49,7 +53,7 @@ public class Solver {
         Board copy = n.getValue().copy();
 
         if (copy.movePlayer(Board.Direction.Up)) {
-            Node<Board> child = new Node<Board>(copy);
+            Node<Board> child = new Node<Board>(n, copy);
             n.addChild(child);
 
             if (child.getValue().getIsSolution())
@@ -59,7 +63,7 @@ public class Solver {
         copy = n.getValue().copy();
 
         if (copy.movePlayer(Board.Direction.Down)) {
-            Node<Board> child = new Node<Board>(copy);
+            Node<Board> child = new Node<Board>(n, copy);
             n.addChild(child);
 
             if (child.getValue().getIsSolution())
@@ -69,7 +73,7 @@ public class Solver {
         copy = n.getValue().copy();
 
         if (copy.movePlayer(Board.Direction.Left)) {
-            Node<Board> child = new Node<Board>(copy);
+            Node<Board> child = new Node<Board>(n, copy);
             n.addChild(child);
 
             if (child.getValue().getIsSolution())
@@ -79,7 +83,7 @@ public class Solver {
         copy = n.getValue().copy();
 
         if (copy.movePlayer(Board.Direction.Right)) {
-            Node<Board> child = new Node<Board>(copy);
+            Node<Board> child = new Node<Board>(n, copy);
             n.addChild(child);
 
             if (child.getValue().getIsSolution())

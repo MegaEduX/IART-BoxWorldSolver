@@ -129,6 +129,27 @@ public class Board {
                         //  Move it all the way up.
                         //  Move the player one piece.
 
+                        for (int i = 1; ; i++) {
+                            PieceType cpc = getPieceAtCoordinate(new Coordinate(upCoordinate.x, upCoordinate.y - 1));
+
+                            if (cpc == PieceType.Floor)
+                                continue;
+
+                            if (cpc == PieceType.Hole) {
+                                setPieceAtCoordinate(PieceType.Floor, new Coordinate(upCoordinate.x, upCoordinate.y - i));
+                                setPieceAtCoordinate(PieceType.Floor, upCoordinate);
+
+                                swap(currentPlayerPosition, upCoordinate);
+                            } else {
+                                swap(upCoordinate, new Coordinate(upCoordinate.x, upCoordinate.y - (i + 1)));
+                                swap(currentPlayerPosition, upCoordinate);
+                            }
+
+                            break;
+                        }
+
+                        //  foo
+
                         int yToMoveUp = 0;
 
                         for (int i = 1; ; i++) {
@@ -199,23 +220,24 @@ public class Board {
                         //  Move it all the way down.
                         //  Move the player one piece.
 
-                        int yToMoveDown = 0;
-
                         for (int i = 1; ; i++) {
                             PieceType cpc = getPieceAtCoordinate(new Coordinate(downCoordinate.x, downCoordinate.y + i));
 
-                            if (cpc != PieceType.Wall) {
-                                if (cpc == PieceType.Hole)
-                                    yToMoveDown = i;
-                                else if (cpc == PieceType.Box || cpc == PieceType.IceBox)
-                                    yToMoveDown = i - 1;
+                            if (cpc == PieceType.Floor)
+                                continue;
 
-                                break;
+                            if (cpc == PieceType.Hole) {
+                                setPieceAtCoordinate(PieceType.Floor, new Coordinate(downCoordinate.x, downCoordinate.y + i));
+                                setPieceAtCoordinate(PieceType.Floor, downCoordinate);
+
+                                swap(currentPlayerPosition, downCoordinate);
+                            } else {
+                                swap(downCoordinate, new Coordinate(downCoordinate.x, downCoordinate.y + (i - 1)));
+                                swap(currentPlayerPosition, downCoordinate);
                             }
-                        }
 
-                        swap(downCoordinate, new Coordinate(downCoordinate.x, downCoordinate.y + yToMoveDown));
-                        swap(currentPlayerPosition, downCoordinate);
+                            break;
+                        }
                     }
 
                     heuristicG++;
@@ -269,23 +291,24 @@ public class Board {
                         //  Move it all the way left.
                         //  Move the player one piece.
 
-                        int xToMoveLeft = 0;
-
                         for (int i = 1; ; i++) {
                             PieceType cpc = getPieceAtCoordinate(new Coordinate(leftCoordinate.x - i, leftCoordinate.y));
 
-                            if (cpc != PieceType.Wall) {
-                                if (cpc == PieceType.Hole)
-                                    xToMoveLeft = i;
-                                else if (cpc == PieceType.Box || cpc == PieceType.IceBox)
-                                    xToMoveLeft = i - 1;
+                            if (cpc == PieceType.Floor)
+                                continue;
 
-                                break;
+                            if (cpc == PieceType.Hole) {
+                                setPieceAtCoordinate(PieceType.Floor, new Coordinate(leftCoordinate.x - i, leftCoordinate.y));
+                                setPieceAtCoordinate(PieceType.Floor, leftCoordinate);
+
+                                swap(currentPlayerPosition, leftCoordinate);
+                            } else {
+                                swap(leftCoordinate, new Coordinate(leftCoordinate.x - (i + 1), leftCoordinate.y));
+                                swap(currentPlayerPosition, leftCoordinate);
                             }
-                        }
 
-                        swap(leftCoordinate, new Coordinate(leftCoordinate.x - xToMoveLeft, leftCoordinate.y));
-                        swap(currentPlayerPosition, leftCoordinate);
+                            break;
+                        }
                     }
 
                     heuristicG++;
@@ -339,23 +362,24 @@ public class Board {
                         //  Move it all the way right.
                         //  Move the player one piece.
 
-                        int xToMoveRight = 0;
-
                         for (int i = 1; ; i++) {
                             PieceType cpc = getPieceAtCoordinate(new Coordinate(rightCoordinate.x + i, rightCoordinate.y));
 
-                            if (cpc != PieceType.Wall) {
-                                if (cpc == PieceType.Hole)
-                                    xToMoveRight = i;
-                                else if (cpc == PieceType.Box || cpc == PieceType.IceBox)
-                                    xToMoveRight = i - 1;
+                            if (cpc == PieceType.Floor)
+                                continue;
 
-                                break;
+                            if (cpc == PieceType.Hole) {
+                                setPieceAtCoordinate(PieceType.Floor, new Coordinate(rightCoordinate.x + i, rightCoordinate.y));
+                                setPieceAtCoordinate(PieceType.Floor, rightCoordinate);
+
+                                swap(currentPlayerPosition, rightCoordinate);
+                            } else {
+                                swap(rightCoordinate, new Coordinate(rightCoordinate.x + (i - 1), rightCoordinate.y));
+                                swap(currentPlayerPosition, rightCoordinate);
                             }
-                        }
 
-                        swap(rightCoordinate, new Coordinate(rightCoordinate.x + xToMoveRight, rightCoordinate.y));
-                        swap(currentPlayerPosition, rightCoordinate);
+                            break;
+                        }
                     }
 
                     heuristicG++;
@@ -394,9 +418,15 @@ public class Board {
 
             double distance = Coordinate.distance(playerCoordinate, exitCoordinate);
 
-            System.out.println("Distance to exit: " + distance);
+            int boxes = getPieceCount(PieceType.Box);
+            int iceBoxes = getPieceCount(PieceType.IceBox);
+            int holes = getPieceCount(PieceType.Hole);
 
-            return distance;
+            double heuristic = distance + (boxes + iceBoxes) * 10 + holes * 30;
+
+            System.out.println("Heuristic: " + heuristic);
+
+            return heuristic;
         } catch (PieceNotFoundException e) {
             //  Can this even happen?
         }
@@ -430,5 +460,16 @@ public class Board {
                     return new Coordinate(x, y);
 
         throw new PieceNotFoundException();
+    }
+
+    private int getPieceCount(PieceType pc) {
+        int counter = 0;
+
+        for (int y = 0; y < boardRepresentation.length; y++)
+            for (int x = 0; x < boardRepresentation[y].length; x++)
+                if (boardRepresentation[y][x] == pc)
+                    counter++;
+
+        return counter;
     }
 }
