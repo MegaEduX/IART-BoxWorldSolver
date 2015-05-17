@@ -1,4 +1,4 @@
-package pt.up.fe.ia.a4_2;
+package pt.up.fe.ia.a4_2.utils;
 
 public class Coordinate {
     public int x, y;

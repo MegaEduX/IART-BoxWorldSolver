@@ -1,4 +1,6 @@
-package pt.up.fe.ia.a4_2;
+package pt.up.fe.ia.a4_2.logic;
+
+import pt.up.fe.ia.a4_2.utils.Coordinate;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package pt.up.fe.ia.a4_2;
+package pt.up.fe.ia.a4_2.utils;
 
 import java.util.ArrayList;
 
@@ -45,11 +45,11 @@ public class Node<T> {
         value = val;
     }
 
-    public boolean getUsed() {
+    public boolean getVisited() {
         return used;
     }
 
-    public void setUsed(boolean u) {
+    public void setVisited(boolean u) {
         used = u;
     }
 }

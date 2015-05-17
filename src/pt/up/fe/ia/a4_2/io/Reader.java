@@ -1,4 +1,6 @@
-package pt.up.fe.ia.a4_2;
+package pt.up.fe.ia.a4_2.io;
+
+import pt.up.fe.ia.a4_2.logic.Board;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,11 +10,11 @@ import java.util.ArrayList;
 public class Reader {
     private String filePath;
 
-    Reader(String fp) {
+    public Reader(String fp) {
         filePath = fp;
     }
 
-    Board.PieceType[][] read() throws IOException {
+    public Board.PieceType[][] read() throws IOException {
         ArrayList<ArrayList<Board.PieceType>> fullBoard = new ArrayList<ArrayList<Board.PieceType>>();
 
         BufferedReader br = new BufferedReader(new FileReader(filePath));
