@@ -86,6 +86,62 @@ public class Board {
         }
     }
 
+    @Override public String toString() {
+        String s = "";
+
+        for (PieceType[] row : boardRepresentation) {
+            for (PieceType p : row) {
+                switch (p) {
+                    case Player:
+
+                        s += "P";
+
+                        break;
+
+                    case Floor:
+
+                        s += "_";
+
+                        break;
+
+                    case Wall:
+
+                        s += "X";
+
+                        break;
+
+                    case Box:
+
+                        s += "B";
+
+                        break;
+
+                    case IceBox:
+
+                        s += "I";
+
+                        break;
+
+                    case Hole:
+
+                        s += "H";
+
+                        break;
+
+                    case Exit:
+
+                        s += "E";
+
+                        break;
+                }
+            }
+
+            s += "\n";
+        }
+
+        return s;
+    }
+
     public boolean movePlayer(Direction d) {
         switch (d) {
             case Up: {
@@ -101,8 +157,11 @@ public class Board {
 
                     heuristicG++;
 
-                    if (pc == PieceType.Exit)
+                    if (pc == PieceType.Exit) {
                         isSolution = true;
+
+                        setPieceAtCoordinate(PieceType.Floor, currentPlayerPosition);
+                    }
 
                     updatePlayerPosition();
 
@@ -192,8 +251,11 @@ public class Board {
 
                     heuristicG++;
 
-                    if (pc == PieceType.Exit)
+                    if (pc == PieceType.Exit) {
                         isSolution = true;
+
+                        setPieceAtCoordinate(PieceType.Floor, currentPlayerPosition);
+                    }
 
                     updatePlayerPosition();
 
@@ -263,8 +325,11 @@ public class Board {
 
                     heuristicG++;
 
-                    if (pc == PieceType.Exit)
+                    if (pc == PieceType.Exit) {
                         isSolution = true;
+
+                        setPieceAtCoordinate(PieceType.Floor, currentPlayerPosition);
+                    }
 
                     updatePlayerPosition();
 
@@ -334,8 +399,11 @@ public class Board {
 
                     heuristicG++;
 
-                    if (pc == PieceType.Exit)
+                    if (pc == PieceType.Exit) {
                         isSolution = true;
+
+                        setPieceAtCoordinate(PieceType.Floor, currentPlayerPosition);
+                    }
 
                     updatePlayerPosition();
 
@@ -422,11 +490,7 @@ public class Board {
             int iceBoxes = getPieceCount(PieceType.IceBox);
             int holes = getPieceCount(PieceType.Hole);
 
-            double heuristic = distance + (boxes + iceBoxes) * 10 + holes * 30;
-
-            System.out.println("Heuristic: " + heuristic);
-
-            return heuristic;
+            return distance + (boxes + iceBoxes) * 10 + holes * 30;
         } catch (PieceNotFoundException e) {
             //  Can this even happen?
         }

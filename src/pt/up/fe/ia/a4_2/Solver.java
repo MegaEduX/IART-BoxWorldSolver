@@ -37,7 +37,10 @@ public class Solver {
                     bestHeuristic = n.getValue().getHeuristicF();
                 }
 
-            System.out.println("Number of graph leaves: " + g.getLeaves().size());
+            //  System.out.println("Number of graph leaves: " + g.getLeaves().size());
+
+            if (bestNode == null)
+                return null;
 
             bestNode.setUsed(true);
 

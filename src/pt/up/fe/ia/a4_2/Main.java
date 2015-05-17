@@ -4,12 +4,14 @@ package pt.up.fe.ia.a4_2;
 
 !!! Working Board !!!
 
-XXXXXX
-XP___E
-XXXXXX
-XXXXXX
-XXXXXX
-XXXXXX
+XXXXXXXX
+XXXXXXXX
+XP____HE
+XX__B__X
+XXX____X
+XXXXXXXX
+XXXXXXXX
+XXXXXXXX
 
 Target Board
 
@@ -22,17 +24,35 @@ X____I___B_X
 XX_________X
 XXXXXXXXXXXX
 
- */
+*/
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        Reader rd = new Reader("/Users/MegaEduX/easy.bwlevel");
+        Scanner in = new Scanner(System.in);
+
+        Board.PieceType[][] pt;
+
+        while (true) {
+            try {
+                System.out.print("Path to level file: ");
+
+                Reader rd = new Reader(in.nextLine());
+
+                pt = rd.read();
+
+                break;
+            } catch (Exception e) {
+                System.out.println("An error has occoured: " + e.getMessage());
+                System.out.println("");
+            }
+        }
 
         try {
-            Board.PieceType[][] pt = rd.read();
+            long startTime = System.nanoTime();
 
             Board b = new Board(pt);
 
@@ -42,9 +62,26 @@ public class Main {
 
             ArrayList<Node> fp = s.getGraph().getPathToNode(result);
 
+            long endTime = System.nanoTime();
+
+            long duration = (endTime - startTime);
+
+            System.out.println("Completed in " + duration / 1000000000.0 + " seconds.");
+
+            System.out.println("");
+
+            for (int i = 0; i < fp.size(); i++) {
+                Board cb = (Board) fp.get(i).getValue();
+
+                System.out.println("State " + i + " (Heuristic: " + cb.getHeuristicF() + "):");
+                System.out.println("");
+                System.out.println(cb.toString());
+                System.out.println("");
+            }
+
             System.out.println("Found Exit!");
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 }
