@@ -2,19 +2,46 @@ package pt.up.fe.ia.a4_2;
 
 /*
 
-!!! Working Board !!!
+-> Before Optimization: Completed in 0.05354203 seconds.
+-> After Optimization: Completed in 0.022481025 seconds.
+-> (~250% speed up)
+
+-> Intel(R) Core(TM) i7-3770 CPU @ 3.40GHz
 
 XXXXXXXX
 XXXXXXXX
 XP____HE
-XX__B__X
+XX__I__X
 XXX____X
 XXXXXXXX
 XXXXXXXX
 XXXXXXXX
 
-Target Board
+-> Before Optimization: Completed in 33.935145387 seconds.
+-> After Optimization: Completed in 0.098680506 seconds.
+-> (~35000% speed up)
 
+-> Intel(R) Core(TM) i7-3770 CPU @ 3.40GHz
+
+XXXXXXXXXXXX
+XXXXXXXXXXXX
+XXXXXXXXXXXX
+XXX______H_E
+XX________XX
+XP_______BXX
+X________H_X
+X________B_X
+XX_________X
+XXXXXXXXXXXX
+XXXXXXXXXXXX
+XXXXXXXXXXXX
+
+-> Completed in 14.733648867 seconds.
+
+-> Intel(R) Core(TM) i7-3770 CPU @ 3.40GHz
+
+XXXXXXXXXXXX
+XXXXXXXXXXXX
 XXXXXXXXXXXX
 XXX_______HE
 XX________XX
@@ -22,6 +49,8 @@ XP___B____XX
 X_____H__H_X
 X____I___B_X
 XX_________X
+XXXXXXXXXXXX
+XXXXXXXXXXXX
 XXXXXXXXXXXX
 
 */

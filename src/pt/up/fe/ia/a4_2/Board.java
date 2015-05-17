@@ -89,6 +89,8 @@ public class Board {
     @Override public String toString() {
         String s = "";
 
+        int l = 0;
+
         for (PieceType[] row : boardRepresentation) {
             for (PieceType p : row) {
                 switch (p) {
@@ -136,10 +138,18 @@ public class Board {
                 }
             }
 
-            s += "\n";
+            if (++l != boardRepresentation.length)
+                s += "\n";
         }
 
         return s;
+    }
+
+    @Override public boolean equals(Object obj) {
+        if (obj instanceof Board)
+            return this.toString().equals(obj.toString());
+
+        return false;
     }
 
     public boolean movePlayer(Direction d) {
@@ -189,7 +199,7 @@ public class Board {
                         //  Move the player one piece.
 
                         for (int i = 1; ; i++) {
-                            PieceType cpc = getPieceAtCoordinate(new Coordinate(upCoordinate.x, upCoordinate.y - 1));
+                            PieceType cpc = getPieceAtCoordinate(new Coordinate(upCoordinate.x, upCoordinate.y - i));
 
                             if (cpc == PieceType.Floor)
                                 continue;
@@ -206,26 +216,6 @@ public class Board {
 
                             break;
                         }
-
-                        //  foo
-
-                        int yToMoveUp = 0;
-
-                        for (int i = 1; ; i++) {
-                            PieceType cpc = getPieceAtCoordinate(new Coordinate(upCoordinate.x, upCoordinate.y - i));
-
-                            if (cpc != PieceType.Wall) {
-                                if (cpc == PieceType.Hole)
-                                    yToMoveUp = i;
-                                else if (cpc == PieceType.Box || cpc == PieceType.IceBox)
-                                    yToMoveUp = i - 1;
-
-                                break;
-                            }
-                        }
-
-                        swap(upCoordinate, new Coordinate(upCoordinate.x, upCoordinate.y - yToMoveUp));
-                        swap(currentPlayerPosition, upCoordinate);
                     }
 
                     heuristicG++;
@@ -261,7 +251,7 @@ public class Board {
 
                     return true;
                 } else if (pc == PieceType.Box || pc == PieceType.IceBox) {
-                    Coordinate downTwoCoordinate = new Coordinate(downCoordinate.x, downCoordinate.y - 1);
+                    Coordinate downTwoCoordinate = new Coordinate(downCoordinate.x, downCoordinate.y + 1);
 
                     PieceType pcDownTwo = getPieceAtCoordinate(downTwoCoordinate);
 
@@ -368,7 +358,7 @@ public class Board {
 
                                 swap(currentPlayerPosition, leftCoordinate);
                             } else {
-                                swap(leftCoordinate, new Coordinate(leftCoordinate.x - (i + 1), leftCoordinate.y));
+                                swap(leftCoordinate, new Coordinate(leftCoordinate.x - i + 1, leftCoordinate.y));
                                 swap(currentPlayerPosition, leftCoordinate);
                             }
 

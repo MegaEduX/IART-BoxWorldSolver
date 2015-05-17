@@ -1,5 +1,7 @@
 package pt.up.fe.ia.a4_2;
 
+import java.util.ArrayList;
+
 public class Solver {
 
     private class SolutionFoundException extends Exception {
@@ -27,12 +29,14 @@ public class Solver {
     }
 
     public Node solve() {
+        ArrayList<String> visitedStr = new ArrayList<String>();
+
         while (true) {
             Node<Board> bestNode = null;
             double bestHeuristic = Double.POSITIVE_INFINITY;
 
             for (Node<Board> n : g.getLeaves())
-                if (n.getValue().getHeuristicF() < bestHeuristic && !n.getUsed()) {
+                if (n.getValue().getHeuristicF() < bestHeuristic && !n.getUsed() && !visitedStr.contains(n.getValue().toString())) {
                     bestNode = n;
                     bestHeuristic = n.getValue().getHeuristicF();
                 }
@@ -43,6 +47,8 @@ public class Solver {
                 return null;
 
             bestNode.setUsed(true);
+
+            visitedStr.add(bestNode.getValue().toString());
 
             try {
                 parseNode(bestNode);
