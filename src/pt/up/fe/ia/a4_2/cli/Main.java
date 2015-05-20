@@ -67,9 +67,8 @@ XXXXXXXXXX
 
 */
 
-import pt.up.fe.ia.a4_2.algorithms.AStar;
-import pt.up.fe.ia.a4_2.algorithms.DFS;
-import pt.up.fe.ia.a4_2.algorithms.Solver;
+import pt.up.fe.ia.a4_2.algorithms.*;
+
 import pt.up.fe.ia.a4_2.io.Reader;
 import pt.up.fe.ia.a4_2.logic.Board;
 import pt.up.fe.ia.a4_2.utils.Node;
@@ -102,6 +101,7 @@ public class Main {
         try {
             Board b = new Board(pt);
 
+            solve(new BFS(b));
             solve(new DFS(b));
             solve(new AStar(b));
 
@@ -127,7 +127,7 @@ public class Main {
 
         long duration = (endTime - startTime);
 
-        System.out.println("[" + s.getName() + "] Completed in " + duration / 1000000000.0 + " seconds.");
+        System.out.println("[" + s.getName() + "] Completed in " + duration / 1000000000.0 + " seconds. (Steps: " + fp.size() + ")");
 
         System.out.println("");
 

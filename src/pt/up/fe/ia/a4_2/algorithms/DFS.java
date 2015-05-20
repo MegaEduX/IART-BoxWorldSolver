@@ -9,20 +9,6 @@ import java.util.Stack;
 
 public class DFS implements Solver {
 
-    private class SolutionFoundException extends Exception {
-        private Node<Board> sol;
-
-        public SolutionFoundException(Node<Board> s) {
-            super();
-
-            sol = s;
-        }
-
-        public Node<Board> getSolution() {
-            return sol;
-        }
-    }
-
     private Graph g;
 
     public DFS(Board b) {

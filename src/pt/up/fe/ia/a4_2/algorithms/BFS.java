@@ -5,17 +5,18 @@ import pt.up.fe.ia.a4_2.utils.Graph;
 import pt.up.fe.ia.a4_2.utils.Node;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
-public class AStar implements Solver {
+public class BFS implements Solver {
 
     private Graph g;
 
-    public AStar(Board b) {
+    public BFS(Board b) {
         g = new Graph(new Node<Board>(null, b));
     }
 
     public String getName() {
-        return "A-Star (A*)";
+        return "Breadth First Search (BFS)";
     }
 
     public Graph getGraph() {
@@ -23,42 +24,42 @@ public class AStar implements Solver {
     }
 
     public Node solve() {
-        //ArrayList<Node> leaves = new ArrayList<Node>();
-
-        //leaves.add(g.getRootNode());
-
         ArrayList<String> visitedStr = new ArrayList<String>();
 
-        while (true) {
-            Node<Board> bestNode = null;
-            double bestHeuristic = Double.POSITIVE_INFINITY;
+        Stack<Node<Board>> stack = new Stack<Node<Board>>();
 
-            for (Node<Board> n : g.getLeaves())
-                if (n.getValue().getHeuristicF() < bestHeuristic && !n.getVisited() && !visitedStr.contains(n.getValue().toString())) {
-                    bestNode = n;
-                    bestHeuristic = n.getValue().getHeuristicF();
+        stack.push(g.getRootNode());
+
+        Stack<Node<Board>> upcomingStack = new Stack<Node<Board>>();
+
+        try {
+            while (!stack.isEmpty()) {
+                Node<Board> n = stack.pop();
+
+                Board b = n.getValue();
+
+                if (!n.getVisited() && !visitedStr.contains(b.toString())) {
+                    n.setVisited(true);
+
+                    visitedStr.add(b.toString());
+
+                    parseNode(n);
+
+                    for (Node<Board> child : n.getNodes())
+                        upcomingStack.push(child);
                 }
 
-            //  System.out.println("Number of graph leaves: " + g.getLeaves().size());
+                if (stack.isEmpty()) {
+                    stack = (Stack<Node<Board>>) upcomingStack.clone();
 
-            if (bestNode == null)
-                return null;
-
-            bestNode.setVisited(true);
-
-            //leaves.remove(bestNode);
-
-            visitedStr.add(bestNode.getValue().toString());
-
-            try {
-                parseNode(bestNode);
-
-                /*  for (Node child : bestNode.getNodes())
-                    leaves.add(child);  */
-            } catch (SolutionFoundException e) {
-                return e.getSolution();
+                    upcomingStack = new Stack<Node<Board>>();
+                }
             }
+        } catch (SolutionFoundException e) {
+            return e.getSolution();
         }
+
+        return null;
     }
 
     private void parseNode(Node<Board> n) throws SolutionFoundException {

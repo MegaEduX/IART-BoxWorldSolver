@@ -43,6 +43,8 @@ public class Board {
 
     private int heuristicG = 0;
 
+    private double cachedHeuristicH = -1;
+
     private boolean isSolution = false;
 
     private PieceType[][] boardRepresentation = null;
@@ -155,6 +157,8 @@ public class Board {
     }
 
     public boolean movePlayer(Direction d) {
+        cachedHeuristicH = -1;
+
         switch (d) {
             case Up: {
                 if (currentPlayerPosition.y == 0)
@@ -472,6 +476,9 @@ public class Board {
         //  Maybe also add the number of holes? Boxes?
 
         try {
+            if (cachedHeuristicH != -1)
+                return cachedHeuristicH;
+
             Coordinate playerCoordinate = getPieceCoordinate(PieceType.Player);
 
             Coordinate exitCoordinate = getPieceCoordinate(PieceType.Exit);
@@ -482,7 +489,9 @@ public class Board {
             int iceBoxes = getPieceCount(PieceType.IceBox);
             int holes = getPieceCount(PieceType.Hole);
 
-            return distance + (boxes + iceBoxes) * 10 + holes * 30;
+            cachedHeuristicH = distance + (boxes + iceBoxes) * 10 + holes * 30;
+
+            return cachedHeuristicH;
         } catch (PieceNotFoundException e) {
             //  Can this even happen?
         }
