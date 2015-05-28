@@ -101,8 +101,8 @@ public class Main {
         try {
             Board b = new Board(pt);
 
-            solve(new BFS(b));
-            solve(new DFS(b));
+            //  solve(new BFS(b));
+            //  solve(new DFS(b));
             solve(new AStar(b));
 
         } catch (Exception e) {

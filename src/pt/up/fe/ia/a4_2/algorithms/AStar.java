@@ -23,9 +23,9 @@ public class AStar implements Solver {
     }
 
     public Node solve() {
-        //ArrayList<Node> leaves = new ArrayList<Node>();
+        //  ArrayList<Node> leaves = new ArrayList<Node>();
 
-        //leaves.add(g.getRootNode());
+        //  leaves.add(g.getRootNode());
 
         ArrayList<String> visitedStr = new ArrayList<String>();
 
@@ -41,12 +41,12 @@ public class AStar implements Solver {
 
             //  System.out.println("Number of graph leaves: " + g.getLeaves().size());
 
-            if (bestNode == null)
+            if (bestNode == null || bestHeuristic == Double.POSITIVE_INFINITY)
                 return null;
 
             bestNode.setVisited(true);
 
-            //leaves.remove(bestNode);
+            //  leaves.remove(bestNode);
 
             visitedStr.add(bestNode.getValue().toString());
 
