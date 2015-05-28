@@ -131,13 +131,54 @@ public class Main {
 
         System.out.println("");
 
+
+
         for (int i = 0; i < fp.size(); i++) {
             Board cb = (Board) fp.get(i).getValue();
 
             System.out.println("State " + i + " (Heuristic: " + cb.getHeuristicF() + "):");
             System.out.println("");
+
             System.out.println(cb.toString());
             System.out.println("");
         }
+
     }
 }
+
+/*
+
+State 21 (Heuristic: 22.0):
+
+XXXXXXXXXXXX
+XXXXXXXXXXXX
+XXXXXXXXXXXX
+XXX_______PE
+XX________XX
+X_________XX
+X__________X
+X__________X
+XX_________X
+XXXXXXXXXXXX
+XXXXXXXXXXXX
+XXXXXXXXXXXX
+
+
+  - - - - - - - - - - - -
+| X X X X X X X X X X X X |
+| X X X X X X X X X X X X |
+| X X X X X X X X X X X X |
+| X X X _ _ _ _ _ _ _ P E |
+| X X _ _ _ _ _ _ _ _ X X |
+| X _ _ _ _ _ _ _ _ _ X X |
+| X__________X
+| X__________X
+| XX_________X
+| X X X X X X X X X X X X |
+| X X X X X X X X X X X X |
+| X X X X X X X X X X X X |
+  - - - - - - - - - - - -
+
+
+
+ */

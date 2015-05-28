@@ -93,58 +93,60 @@ public class Board {
     @Override public String toString() {
         String s = "";
 
+        s += "      1   2   3   4   5   6   7   8   9  10  11  12 \n";
+        s += "      -   -   -   -   -   -   -   -   -   -   -   - \n";
+
+
         int l = 0;
 
         for (PieceType[] row : boardRepresentation) {
+            if (l < 10) // one digit
+                s += " " + l + "  | ";
+            else // two digits
+                s += l + " |  ";
+
             for (PieceType p : row) {
                 switch (p) {
                     case Player:
-
                         s += "P";
-
                         break;
 
                     case Floor:
-
-                        s += "_";
-
+                        s += " ";
                         break;
 
                     case Wall:
-
                         s += "X";
-
                         break;
 
                     case Box:
-
                         s += "B";
-
                         break;
 
                     case IceBox:
-
                         s += "I";
-
                         break;
 
                     case Hole:
-
                         s += "H";
-
                         break;
 
                     case Exit:
-
                         s += "E";
-
                         break;
                 }
+                s += " | ";
             }
 
-            if (++l != boardRepresentation.length)
-                s += "\n";
+            s += "  " + l++ + " \n"; // end of line
+
+            /*if (++l != boardRepresentation.length) // end of line
+                s += " " + (l - 1) + " \n"; */
+
         }
+
+        s += "      -   -   -   -   -   -   -   -   -   -   -   - \n";
+        s += "      1   2   3   4   5   6   7   8   9  10  11  12  \n|";
 
         return s;
     }
