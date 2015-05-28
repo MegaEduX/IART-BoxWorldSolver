@@ -473,8 +473,6 @@ public class Board {
     }
 
     public double getHeuristicH() {
-        //  Maybe also add the number of holes? Boxes?
-
         try {
             if (cachedHeuristicH != -1)
                 return cachedHeuristicH;
@@ -489,7 +487,9 @@ public class Board {
             int iceBoxes = getPieceCount(PieceType.IceBox);
             int holes = getPieceCount(PieceType.Hole);
 
-            cachedHeuristicH = distance + (boxes + iceBoxes) * 10 + holes * 30;
+            cachedHeuristicH = distance + (boxes + iceBoxes) + holes * 2;
+
+            //  cachedHeuristicH = distance;
 
             return cachedHeuristicH;
         } catch (PieceNotFoundException e) {
