@@ -9,4 +9,6 @@ public interface Solver {
     Node solve();
 
     String getName();
+
+    boolean usesHeuristic();
 }

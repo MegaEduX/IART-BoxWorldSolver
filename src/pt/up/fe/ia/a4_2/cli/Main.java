@@ -71,6 +71,7 @@ import pt.up.fe.ia.a4_2.algorithms.*;
 
 import pt.up.fe.ia.a4_2.io.Reader;
 import pt.up.fe.ia.a4_2.logic.Board;
+import pt.up.fe.ia.a4_2.utils.BinaryTuple;
 import pt.up.fe.ia.a4_2.utils.Node;
 
 import java.util.ArrayList;
@@ -101,16 +102,28 @@ public class Main {
         try {
             Board b = new Board(pt);
 
-            //  solve(new BFS(b));
-            //  solve(new DFS(b));
-            solve(new AStar(b));
+            BinaryTuple bfsTime = solve(new BFS(b));
+            BinaryTuple dfsTime = solve(new DFS(b));
+            BinaryTuple aStarTime = solve(new AStar(b));
 
+            System.out.println("[BFS] Time: " + bfsTime.getFirst());
+            System.out.println("[BFS] Steps: " + bfsTime.getSecond());
+
+            System.out.println();
+
+            System.out.println("[DFS] Time: " + dfsTime.getFirst());
+            System.out.println("[DFS] Steps: " + dfsTime.getSecond());
+
+            System.out.println();
+
+            System.out.println("[A-Star] Time: " + aStarTime.getFirst());
+            System.out.println("[A-Star] Steps: " + aStarTime.getSecond());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static void solve(Solver s) {
+    private static BinaryTuple<Double, Integer> solve(Solver s) {
         long startTime = System.nanoTime();
 
         Node result = s.solve();
@@ -127,22 +140,25 @@ public class Main {
 
         long duration = (endTime - startTime);
 
-        System.out.println("[" + s.getName() + "] Completed in " + duration / 1000000000.0 + " seconds. (Steps: " + fp.size() + ")");
+        System.out.println("Steps for " + s.getName() + "...");
 
         System.out.println("");
-
-
 
         for (int i = 0; i < fp.size(); i++) {
             Board cb = (Board) fp.get(i).getValue();
 
-            System.out.println("State " + i + " (Heuristic: " + cb.getHeuristicF() + "):");
+            if (s.usesHeuristic())
+                System.out.println("State " + i + " (Heuristic: " + cb.getHeuristicF() + "):");
+            else
+                System.out.println("State " + i + ":");
+
             System.out.println("");
 
             System.out.println(cb.toString());
             System.out.println("");
         }
 
+        return new BinaryTuple<Double, Integer>((duration / 1000000000.0), fp.size());
     }
 }
 

@@ -23,6 +23,10 @@ public class BFS implements Solver {
         return g;
     }
 
+    public boolean usesHeuristic() {
+        return false;
+    }
+
     public Node solve() {
         ArrayList<String> visitedStr = new ArrayList<String>();
 
@@ -38,10 +42,10 @@ public class BFS implements Solver {
 
                 Board b = n.getValue();
 
-                if (!n.getVisited() && !visitedStr.contains(b.toString())) {
+                if (!n.getVisited() && !visitedStr.contains(b.rawRepresentation())) {
                     n.setVisited(true);
 
-                    visitedStr.add(b.toString());
+                    visitedStr.add(b.rawRepresentation());
 
                     parseNode(n);
 

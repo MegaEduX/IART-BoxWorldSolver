@@ -22,6 +22,10 @@ public class AStar implements Solver {
         return g;
     }
 
+    public boolean usesHeuristic() {
+        return true;
+    }
+
     public Node solve() {
         //  ArrayList<Node> leaves = new ArrayList<Node>();
 
@@ -34,7 +38,7 @@ public class AStar implements Solver {
             double bestHeuristic = Double.POSITIVE_INFINITY;
 
             for (Node<Board> n : g.getLeaves())
-                if (n.getValue().getHeuristicF() < bestHeuristic && !n.getVisited() && !visitedStr.contains(n.getValue().toString())) {
+                if (n.getValue().getHeuristicF() < bestHeuristic && !n.getVisited() && !visitedStr.contains(n.getValue().rawRepresentation())) {
                     bestNode = n;
                     bestHeuristic = n.getValue().getHeuristicF();
                 }
@@ -48,7 +52,7 @@ public class AStar implements Solver {
 
             //  leaves.remove(bestNode);
 
-            visitedStr.add(bestNode.getValue().toString());
+            visitedStr.add(bestNode.getValue().rawRepresentation());
 
             try {
                 parseNode(bestNode);

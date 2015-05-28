@@ -57,6 +57,10 @@ public class Board {
         currentPlayerPosition = getPieceCoordinate(PieceType.Player);
     }
 
+    public Coordinate getBoardSize() {
+        return new Coordinate(boardRepresentation[0].length, boardRepresentation.length);
+    }
+
     private void updatePlayerPosition() {
         try {
             currentPlayerPosition = getPieceCoordinate(PieceType.Player);
@@ -90,20 +94,126 @@ public class Board {
         }
     }
 
+    public String rawRepresentation() {
+        String s = "";
+
+        int l = 0;
+
+        for (PieceType[] row : boardRepresentation) {
+            for (PieceType p : row) {
+                switch (p) {
+                    case Player:
+
+                        s += "P";
+
+                        break;
+
+                    case Floor:
+
+                        s += "_";
+
+                        break;
+
+                    case Wall:
+
+                        s += "X";
+
+                        break;
+
+                    case Box:
+
+                        s += "B";
+
+                        break;
+
+                    case IceBox:
+
+                        s += "I";
+
+                        break;
+
+                    case Hole:
+
+                        s += "H";
+
+                        break;
+
+                    case Exit:
+
+                        s += "E";
+
+                        break;
+                }
+            }
+
+            if (++l != boardRepresentation.length)
+                s += "\n";
+        }
+
+        return s;
+    }
+
+    private String makeHeader() {
+        String h = "      ";
+        String h2 = "      ";
+
+        int width = getBoardSize().x;
+
+        for (int i = 1; i <= width; i++) {
+            h += Integer.toString(i);
+
+            if (i < 10) {
+                h += "   ";
+                h2 += "-   ";
+            } else {
+                h += "  ";
+                h2 += "--  ";
+            }
+        }
+
+        return h + "\n" + h2 + "\n";
+    }
+
+    private String makeFooter() {
+        String h = "      ";
+        String h2 = "      ";
+
+        int width = getBoardSize().x;
+
+        for (int i = 1; i <= width; i++) {
+            h += Integer.toString(i);
+
+            if (i < 10) {
+                h += "   ";
+                h2 += "-   ";
+            } else {
+                h += "  ";
+                h2 += "--  ";
+            }
+        }
+
+        return h2 + "\n" + h + "\n";
+    }
+
     @Override public String toString() {
+        /*
+
         String s = "";
 
         s += "      1   2   3   4   5   6   7   8   9  10  11  12 \n";
         s += "      -   -   -   -   -   -   -   -   -   -   -   - \n";
 
+        */
+
+        String s = makeHeader();
 
         int l = 0;
 
         for (PieceType[] row : boardRepresentation) {
-            if (l < 10) // one digit
+            if (l < 10) //  One digit
                 s += " " + l + "  | ";
-            else // two digits
-                s += l + " |  ";
+            else    //  Two digits
+                s += l + "  | ";
 
             for (PieceType p : row) {
                 switch (p) {
@@ -135,18 +245,15 @@ public class Board {
                         s += "E";
                         break;
                 }
+
                 s += " | ";
             }
 
-            s += "  " + l++ + " \n"; // end of line
-
-            /*if (++l != boardRepresentation.length) // end of line
-                s += " " + (l - 1) + " \n"; */
+            s += "  " + l++ + " \n";    //  EOL
 
         }
 
-        s += "      -   -   -   -   -   -   -   -   -   -   -   - \n";
-        s += "      1   2   3   4   5   6   7   8   9  10  11  12  \n|";
+        s += makeFooter();
 
         return s;
     }
